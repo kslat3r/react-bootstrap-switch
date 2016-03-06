@@ -147,23 +147,21 @@
       })(this));
       return this;
     },
-    _fireStateChange: function() {
+    _fireStateChange: function(e) {
       if (typeof this.props.onChange === "undefined") {
         return;
       }
-      if (this.props.onChange.length >= 2) {
-        return this.props.onChange(this, this.state.state);
-      }
-      return this.props.onChange(this.state.state);
+
+      return this.props.onChange(this.state.state, e);
     },
-    _changeState: function(state) {
+    _changeState: function(state, e) {
       return this.setState({
         indeterminate: false,
         state: state
       }, (function(_this) {
         return function() {
           _this._containerPosition();
-          return _this._fireStateChange();
+          return _this._fireStateChange(e);
         };
       })(this));
     },
@@ -180,7 +178,7 @@
           if (_this.state.disabled || _this.state.readonly) {
             return;
           }
-          _this._changeState(false);
+          _this._changeState(false, event);
           return _this._elmTrigger("focus.bootstrapSwitch");
         };
       })(this));
@@ -191,7 +189,7 @@
           if (_this.state.disabled || _this.state.readonly) {
             return;
           }
-          _this._changeState(true);
+          _this._changeState(true, event);
           return _this._elmTrigger("focus.bootstrapSwitch");
         };
       })(this));
@@ -275,7 +273,7 @@
           return function(e, skip) {
             e.preventDefault();
             e.stopImmediatePropagation();
-            return _this._changeState(!_this.state.state);
+            return _this._changeState(!_this.state.state, e);
           };
         })(this),
         "focus.bootstrapSwitch": (function(_this) {
@@ -303,11 +301,11 @@
               case 37:
                 e.preventDefault();
                 e.stopImmediatePropagation();
-                return _this._changeState(false);
+                return _this._changeState(false, e);
               case 39:
                 e.preventDefault();
                 e.stopImmediatePropagation();
-                return _this._changeState(true);
+                return _this._changeState(true, e);
             }
           };
         })(this)
@@ -371,7 +369,7 @@
               state: state
             }, function() {
               _this._containerPosition();
-              return _this._fireStateChange();
+              return _this._fireStateChange(e);
             });
           };
         })(this),
